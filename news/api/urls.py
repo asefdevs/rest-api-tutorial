@@ -5,6 +5,8 @@ urlpatterns = [
     path('news/<int:pk>',views.NewsDetailApiView.as_view(),name='news-detail'),
     path('journalists/',views.JournalistListorCreateApiView.as_view(),name='journalists'),
     path('journalists/<int:pk>',views.JournalistDetailApiView.as_view(),name='journalist-detail'),
+    path('profiles/',views.ProfileListOrCreateApiView.as_view(),name='profiles'),
+
 
 
 

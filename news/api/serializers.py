@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from news.models import Article,Journalist
+from news.models import Article,Journalist,Profile
 from datetime import date,datetime
 from django.utils.timesince import timesince
 
@@ -37,3 +37,9 @@ class NewsSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Publication date cannot be higher than now')
         else:
             return pub_date
+
+class ProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=Profile
+        fields='__all__'

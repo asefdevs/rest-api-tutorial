@@ -1,13 +1,14 @@
 from rest_framework import status
 from rest_framework.response import Response 
 
-from news.models import Article, Journalist
-from news.api.serializers import NewsSerializer, JournalistSerializer
+from news.models import Article, Journalist,Profile
+from news.api.serializers import NewsSerializer, JournalistSerializer,ProfileSerializer
 
 #class views
 # from rest_framework.views import APIView
 # from rest_framework.generics import get_object_or_404
 from rest_framework import generics
+
 class NewsListorCreateApiView(generics.ListCreateAPIView):
     queryset=Article.objects.all()
     serializer_class=NewsSerializer
@@ -24,6 +25,10 @@ class NewsDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 class JournalistDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Journalist.objects.all()
     serializer_class=JournalistSerializer
+
+class ProfileListOrCreateApiView(generics.ListCreateAPIView):
+    queryset=Profile.objects.all()
+    serializer_class=ProfileSerializer
 
 
 
