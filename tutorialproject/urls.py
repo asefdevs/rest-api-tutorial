@@ -17,7 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from news.api.urls import urlpatterns as api_url
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(api_url))
 ]
+
+if settings.DEBUG == True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
