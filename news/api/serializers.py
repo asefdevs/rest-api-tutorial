@@ -5,7 +5,7 @@ from django.utils.timesince import timesince
 
 class NewsSerializer(serializers.ModelSerializer):
     time_since_pub=serializers.SerializerMethodField()
-    author=serializers.StringRelatedField()
+    # author=serializers.StringRelatedField()
     class Meta:
         model=Article
         fields='__all__'

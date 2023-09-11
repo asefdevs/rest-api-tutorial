@@ -37,3 +37,28 @@ class JournalistListorCreateApiView(APIView):
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
+
+class NewsDetailApiView(APIView):
+    def get_object(self,pk):
+        instance=get_object_or_404(Article,pk=pk)
+        return instance
+
+    def get(self,request,pk):
+        article=self.get_object(pk=pk)
+        serializer=NewsSerializer(article)
+        return Response(serializer.data)
+    
+    def put(self,request,pk):
+        article=self.get_object(pk=pk)
+        serializer=NewsSerializer(article,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self,request,pk):
+        article=self.get_object(pk=pk)
+        article.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
