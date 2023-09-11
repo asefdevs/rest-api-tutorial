@@ -1,16 +1,18 @@
 from rest_framework import serializers
 from news.models import Article,Journalist
-from datetime import date
+from datetime import date,datetime
 from django.utils.timesince import timesince
 
 class NewsSerializer(serializers.ModelSerializer):
     time_since_pub=serializers.SerializerMethodField()
+    author=serializers.StringRelatedField()
     class Meta:
         model=Article
         fields='__all__'
+        read_only_fields=['id','creation_date','last_updated_date']
 
     def get_time_since_pub(self,object):
-        time_now=date.now()
+        time_now=datetime.now()
         pub_date=object.publication_date
         if object.active:
             time_delta=timesince(pub_date,time_now)
@@ -23,11 +25,10 @@ class NewsSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Publication date cannot be higher than now')
         else:
             return pub_date
-        pass
 
 
 class JournalistSerializer(serializers.ModelSerializer):
-    
+    articles=serializers.StringRelatedField(many=True,read_only=True)
     class Meta:
         model=Journalist
         fields='__all__'
