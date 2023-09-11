@@ -28,6 +28,8 @@ class JournalistDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+
+
 # class NewsListorCreateApiView(APIView):
 
 #     def get(self,request):
