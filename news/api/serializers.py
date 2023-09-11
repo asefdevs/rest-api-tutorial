@@ -6,7 +6,7 @@ from django.utils.timesince import timesince
 
 
 class JournalistSerializer(serializers.ModelSerializer):
-    articles=serializers.StringRelatedField(many=True,read_only=True)
+    articles=serializers.HyperlinkedRelatedField(many=True,read_only=True,view_name='journalist-detail')
     class Meta:
         model=Journalist
         fields='__all__'
