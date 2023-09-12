@@ -40,3 +40,15 @@ class Profile(models.Model):
                 
     def __str__(self):
         return self.user.username
+    
+
+class Comment(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_comment')
+    text=models.TextField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_updated_date = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.user.username
+    
