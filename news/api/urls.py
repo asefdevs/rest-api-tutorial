@@ -4,10 +4,8 @@ urlpatterns = [
     path('news/',views.NewsListorCreateApiView.as_view(),name='news'),
     path('news/<int:pk>',views.NewsDetailApiView.as_view(),name='news-detail'),
     path('journalists/',views.JournalistListorCreateApiView.as_view(),name='journalists'),
-    path('journalists/<int:pk>',views.JournalistDetailApiView.as_view(),name='journalist-detail'),
+    path('journalists/<int:pk>/',views.JournalistDetailApiView.as_view(),name='journalist-detail'),
     path('profiles/',views.ProfileListOrCreateApiView.as_view(),name='profiles'),
-
-
-
+    path('profiles/<int:pk>/',views.ProfiletDetailApiView.as_view(),name='profile-detail'),
 
 ]

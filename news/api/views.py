@@ -8,10 +8,12 @@ from news.api.serializers import NewsSerializer, JournalistSerializer,ProfileSer
 # from rest_framework.views import APIView
 # from rest_framework.generics import get_object_or_404
 from rest_framework import generics
+from news.api.permissions import IsAuthenticatedOrAdminOrPorifleowner
 
 class NewsListorCreateApiView(generics.ListCreateAPIView):
     queryset=Article.objects.all()
     serializer_class=NewsSerializer
+    permission_classes=[IsAuthenticatedOrAdminOrPorifleowner]
 
 
 class JournalistListorCreateApiView(generics.ListCreateAPIView):
@@ -27,6 +29,10 @@ class JournalistDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class=JournalistSerializer
 
 class ProfileListOrCreateApiView(generics.ListCreateAPIView):
+    queryset=Profile.objects.all()
+    serializer_class=ProfileSerializer
+
+class ProfiletDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Profile.objects.all()
     serializer_class=ProfileSerializer
 
