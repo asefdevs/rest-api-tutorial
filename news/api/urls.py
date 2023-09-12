@@ -1,8 +1,10 @@
 from django.urls import path,include
 from news.api import views
+
+
 urlpatterns = [
-    path('news/',views.NewsListorCreateApiView.as_view(),name='news'),
-    path('news/<int:pk>',views.NewsDetailApiView.as_view(),name='news-detail'),
+    path('news/',views.NewsListorCreateApiView.as_view({'get': 'list', 'post': 'create'}),name='news'),
+    path('news/<int:pk>',views.NewsListorCreateApiView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}),name='news-detail'),
     path('journalists/',views.JournalistListorCreateApiView.as_view(),name='journalists'),
     path('journalists/<int:pk>/',views.JournalistDetailApiView.as_view(),name='journalist-detail'),
     path('profiles/',views.ProfileListOrCreateApiView.as_view(),name='profiles'),

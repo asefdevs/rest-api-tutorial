@@ -10,7 +10,15 @@ from rest_framework import generics
 from news.api.permissions import IsAuthenticatedOrAdmin
 from news.api.pagination import CustomPagination
 from rest_framework.filters import SearchFilter
-class NewsListorCreateApiView(generics.ListCreateAPIView):
+from rest_framework import viewsets
+# class NewsListorCreateApiView(generics.ListCreateAPIView):
+#     queryset=Article.objects.all()
+#     serializer_class=NewsSerializer
+#     permission_classes=[IsAuthenticatedOrAdmin]
+#     pagination_class=CustomPagination
+#     filter_backends=[SearchFilter]
+#     search_fields=['title']
+class NewsListorCreateApiView(viewsets.ModelViewSet):
     queryset=Article.objects.all()
     serializer_class=NewsSerializer
     permission_classes=[IsAuthenticatedOrAdmin]
@@ -20,16 +28,17 @@ class NewsListorCreateApiView(generics.ListCreateAPIView):
 
 
 
+
 class JournalistListorCreateApiView(generics.ListCreateAPIView):
     queryset=Journalist.objects.all()
     serializer_class=JournalistSerializer
     permission_classes=[IsAuthenticatedOrAdmin]
 
 
-class NewsDetailApiView(generics.RetrieveUpdateDestroyAPIView):
-    queryset=Article.objects.all()
-    serializer_class=NewsSerializer
-    permission_classes=[IsAuthenticatedOrAdmin]
+# class NewsDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset=Article.objects.all()
+#     serializer_class=NewsSerializer
+#     permission_classes=[IsAuthenticatedOrAdmin]
 
 
 
