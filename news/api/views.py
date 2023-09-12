@@ -1,8 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response 
 
-from news.models import Article, Journalist,Profile
-from news.api.serializers import NewsSerializer, JournalistSerializer,ProfileSerializer
+from news.models import Article, Journalist,Profile,Comment
+from news.api.serializers import NewsSerializer, JournalistSerializer,ProfileSerializer,CommentSerializer
 
 #class views
 # from rest_framework.views import APIView
@@ -36,9 +36,26 @@ class ProfiletDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Profile.objects.all()
     serializer_class=ProfileSerializer
 
+class CommentAddApiView(generics.CreateAPIView):
+    queryset=Comment.objects.all()
+    serializer_class=CommentSerializer
+
+    def perform_create(self, serializer):
+        article_id = self.kwargs.get('article_id')
+        try :
+            article=Article.objects.get(pk=article_id)
+        except Article.DoesNotExist:
+            raise Exception('Article doesnt exist')
+        
+        if article:
+            serializer.save(user=self.request.user, article=article)
+        else:
+            pass
 
 
-
+class CommentListApiView(generics.ListAPIView):
+    queryset=Comment.objects.all()
+    serializer_class=CommentSerializer
 
 
 # class NewsListorCreateApiView(APIView):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from news.models import Article,Journalist,Profile
+from news.models import Article,Journalist,Profile,Comment
 from datetime import date,datetime
 from django.utils.timesince import timesince
 
@@ -43,3 +43,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model=Profile
         fields='__all__'
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    user=serializers.StringRelatedField()
+    class Meta:
+        model=Comment
+        fields='__all__'
+        read_only_fields=['id','user','creation_date','last_updated_date','article']

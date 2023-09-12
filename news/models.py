@@ -45,6 +45,7 @@ class Profile(models.Model):
 class Comment(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_comment')
     text=models.TextField()
+    article=models.ForeignKey(Article,on_delete=models.CASCADE,related_name='article_comment')
     creation_date = models.DateTimeField(auto_now_add=True)
     last_updated_date = models.DateTimeField(auto_now=True)
 
