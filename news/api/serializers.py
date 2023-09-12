@@ -45,6 +45,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields='__all__'
 
 
+class ProfilePhotoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=Profile
+        fields=['image']
+
 class CommentSerializer(serializers.ModelSerializer):
     user=serializers.StringRelatedField()
     class Meta:

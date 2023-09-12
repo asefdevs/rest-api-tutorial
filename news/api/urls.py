@@ -9,6 +9,7 @@ urlpatterns = [
     path('profiles/<int:pk>/',views.ProfiletDetailApiView.as_view(),name='profile-detail'),
     path('news/<int:article_id>/comment/',views.CommentAddApiView.as_view(),name='comment'),
     path('comments/',views.CommentListApiView.as_view(),name='comments'),
+    path('profiles/add_pphoto/', views.ProfilePhotoApiView.as_view(), name='profile-photo'),
 
 
 

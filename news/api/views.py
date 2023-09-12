@@ -1,36 +1,48 @@
 from rest_framework import status
 from rest_framework.response import Response 
-
+from rest_framework import permissions
 from news.models import Article, Journalist,Profile,Comment
-from news.api.serializers import NewsSerializer, JournalistSerializer,ProfileSerializer,CommentSerializer
-
+from news.api.serializers import NewsSerializer, JournalistSerializer,ProfileSerializer,CommentSerializer,ProfilePhotoSerializer
 #class views
 # from rest_framework.views import APIView
 # from rest_framework.generics import get_object_or_404
 from rest_framework import generics
-from news.api.permissions import IsAuthenticatedOrAdminOrPorifleowner
-
+from news.api.permissions import IsAuthenticatedOrAdmin
+from news.api.pagination import CustomPagination
+from rest_framework.filters import SearchFilter
 class NewsListorCreateApiView(generics.ListCreateAPIView):
     queryset=Article.objects.all()
     serializer_class=NewsSerializer
-    permission_classes=[IsAuthenticatedOrAdminOrPorifleowner]
+    permission_classes=[IsAuthenticatedOrAdmin]
+    pagination_class=CustomPagination
+    filter_backends=[SearchFilter]
+    search_fields=['title']
+
 
 
 class JournalistListorCreateApiView(generics.ListCreateAPIView):
     queryset=Journalist.objects.all()
     serializer_class=JournalistSerializer
+    permission_classes=[IsAuthenticatedOrAdmin]
+
 
 class NewsDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Article.objects.all()
     serializer_class=NewsSerializer
+    permission_classes=[IsAuthenticatedOrAdmin]
+
+
 
 class JournalistDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Journalist.objects.all()
     serializer_class=JournalistSerializer
+    permission_classes=[IsAuthenticatedOrAdmin]
+
 
 class ProfileListOrCreateApiView(generics.ListCreateAPIView):
     queryset=Profile.objects.all()
     serializer_class=ProfileSerializer
+    permission_classes=[permissions.IsAdminUser]
 
 class ProfiletDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Profile.objects.all()
@@ -39,6 +51,8 @@ class ProfiletDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 class CommentAddApiView(generics.CreateAPIView):
     queryset=Comment.objects.all()
     serializer_class=CommentSerializer
+    permission_classes=[permissions.IsAuthenticated]
+
 
     def perform_create(self, serializer):
         article_id = self.kwargs.get('article_id')
@@ -56,7 +70,26 @@ class CommentAddApiView(generics.CreateAPIView):
 class CommentListApiView(generics.ListAPIView):
     queryset=Comment.objects.all()
     serializer_class=CommentSerializer
+    permission_classes=[IsAuthenticatedOrAdmin]
 
+
+
+class ProfilePhotoApiView(generics.RetrieveUpdateAPIView):
+    serializer_class = ProfilePhotoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        instance = self.request.user.profile  
+        return instance    
+    
+
+    # queryset=Profile.objects.all()
+    # lookup_field = 'user__pk' 
+
+
+    # def perform_create(self, serializer):
+    #     user=self.request.user
+    #     serializer.save(user=user)
 
 # class NewsListorCreateApiView(APIView):
 
