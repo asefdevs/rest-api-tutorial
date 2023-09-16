@@ -2,6 +2,7 @@ from rest_framework import serializers
 from news.models import Article,Journalist,Profile,Comment
 from datetime import date,datetime
 from django.utils.timesince import timesince
+from django.contrib.auth.models import User
 
 
 
@@ -57,3 +58,33 @@ class CommentSerializer(serializers.ModelSerializer):
         model=Comment
         fields='__all__'
         read_only_fields=['id','user','creation_date','last_updated_date','article']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    password_confirmation = serializers.CharField(write_only=True)
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password','password_confirmation')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data['username'],
+            email=validated_data['email']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+    def validate(self, data):
+        password = data.get('password')
+        password_confirmation = data.get('password_confirmation')
+
+        if password != password_confirmation:
+            raise serializers.ValidationError("Passwords do not match.")
+
+        return data
+    def validate_email(self, value):
+        user=User.objects.filter(email=value)
+        if user.exists():
+            raise serializers.ValidationError('Email already exists')
+        return value

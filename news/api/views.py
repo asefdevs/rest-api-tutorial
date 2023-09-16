@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response 
 from rest_framework import permissions
 from news.models import Article, Journalist,Profile,Comment
-from news.api.serializers import NewsSerializer, JournalistSerializer,ProfileSerializer,CommentSerializer,ProfilePhotoSerializer
+from news.api.serializers import NewsSerializer, JournalistSerializer,ProfileSerializer,UserSerializer,CommentSerializer,ProfilePhotoSerializer
 #class views
 # from rest_framework.views import APIView
 # from rest_framework.generics import get_object_or_404
@@ -11,6 +11,20 @@ from news.api.permissions import IsAuthenticatedOrAdmin
 from news.api.pagination import CustomPagination
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets
+from dj_rest_auth.views import LoginView as restlogin,LogoutView as restlogout
+from django.contrib.auth.models import User
+
+class RegisterApi(generics.CreateAPIView):
+    queryset=User.objects.all()
+    serializer_class=UserSerializer
+
+# class LoginApi(restlogin):
+#     pass
+
+# class LogoutApi(restlogout):
+#     pass
+
+
 # class NewsListorCreateApiView(generics.ListCreateAPIView):
 #     queryset=Article.objects.all()
 #     serializer_class=NewsSerializer
